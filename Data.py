@@ -5,16 +5,17 @@ import numpy as np
 from tensorflow.keras.utils import load_img
 from collections import defaultdict
 
+
 class Data:
     
-    #declare variables
+    # declare variables
     env = None
-    static_path = None # the path of the folder containing static files
-    imgs_path = None # the path of the folder containing images
-    features_path = None # the path of the folder containing features
-    uploaded_path = None # the path of the folder containing uploaded images
-    test_path = None # the path of the folder containing test data
-    index_path = None # the path of the folder containing index
+    static_path = None  # the path of the folder containing static files
+    imgs_path = None  # the path of the folder containing images
+    features_path = None  # the path of the folder containing features
+    uploaded_path = None  # the path of the folder containing uploaded images
+    test_path = None  # the path of the folder containing test data
+    index_path = None  # the path of the folder containing index
    
     def __init__(self):
             self.env = Env()
@@ -34,7 +35,7 @@ class Data:
         self.test_path = os.path.join(self.static_path, self.env.get('test_rel_path'))
         self.index_path = self.env.get('index_path')
     
-    def load_imgs(self,exclude_imgs_with_saved_features = False):
+    def load_imgs(self, exclude_imgs_with_saved_features=False):
         """
         load images from the desk from the path saved in .env file
         Arguments:
@@ -43,7 +44,7 @@ class Data:
         Returns:
             img_map: (dict) that maps images ids(str) to the actual image (image)
         """
-        #load the image paths 
+        # load the image paths
         if exclude_imgs_with_saved_features:
             saved_features = [path.stem for path in Path(self.features_path).glob('*npy')]
             img_paths_collection = [path for path in Path(self.imgs_path).glob('*jpg') if path.stem not in saved_features]
@@ -53,7 +54,7 @@ class Data:
         # initalize dict in which the images will be saved
         img_map = {}
 
-        #load the images
+        # load the images
         for img_path in img_paths_collection:
             img_id = img_path.stem
             img_map[img_id] = load_img(img_path)
@@ -66,14 +67,14 @@ class Data:
         # initalize dict in which the images will be saved
         img_map = {}
 
-        #load the images
+        # load the images
         for img_path in img_paths_collection:
             img_id = img_path.stem
             img_map[img_id] = load_img(img_path)
 
         return img_map
 
-    def load_features(self, custom_features = None):
+    def load_features(self, custom_features=None):
         """
         loads features from the features folder and return it as a hashmap that maps image id to its features
         Arguments:
@@ -81,13 +82,13 @@ class Data:
         Returns:
             features_map: (dict) maps img id to its features
         """
-        #read the features paths & filter custom features if applied
+        # read the features paths & filter custom features if applied
         if custom_features != None:
             features_paths_collectin = [path for path in Path(self.features_path).glob('*npy') if path.stem in custom_features]
         else:
             features_paths_collectin = [path for path in Path(self.features_path).glob('*npy')]
 
-        #construct the features map
+        # construct the features map
         features_map = {}
         for feature_path in features_paths_collectin:
             feature_id = feature_path.stem
@@ -103,14 +104,14 @@ class Data:
         Returns: 
         """
         for key, value in features_map.items():
-            cur_path = os.path.join(self.features_path,str(key) + '.npy')
+            cur_path = os.path.join(self.features_path, str(key) + '.npy')
             np.save(cur_path, value)
 
 class Preprocess:
-    def __init__(self) :
+    def __init__(self):
         pass
 
-    def replace_dict_values(self,dict_,new_values):
+    def replace_dict_values(self, dict_, new_values):
         """
         replace a dict values with values given in a list that is the same len as the original values
         Arguments:
@@ -123,7 +124,7 @@ class Preprocess:
             raise Exception('new_values must be the same size as the dict_.values()')
         
         new_dict = {}
-        for i,key in enumerate(dict_.keys()):
+        for i, key in enumerate(dict_.keys()):
             new_dict[key] = new_values[i]
         
         return new_dict

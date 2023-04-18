@@ -4,14 +4,15 @@ import numpy as np
 from collections import defaultdict
 import h5py
 
+
 class Index:
 
-    #declare variables
-    data = None # instance of Data class
-    clusters_map = None # dict that maps the number of the cluster to the ids of images assigned to it
-    clusters_centers = None # (np.ndarray) in which element in index i represent the center of the cluster i
-    n_clusters = None # number of the clusters in the index
-    is_built = None # (bool) if True the Index is built and ready for search 
+    # declare variables
+    data = None  # instance of Data class
+    clusters_map = None  # dict that maps the number of the cluster to the ids of images assigned to it
+    clusters_centers = None  # (np.ndarray) in which element in index I represent the center of the cluster i
+    n_clusters = None  # number of the clusters in the index
+    is_built = None  # (bool) if True the Index is built and ready for search
 
     def __init__(self) -> None:
         self.data = Data()
@@ -20,7 +21,7 @@ class Index:
         self.n_clusters = 0
         self.is_built = False
 
-    def build(self,features_map,n_clusters = 2):
+    def build(self, features_map, n_clusters=2):
         """
         build an index from a map of features that maps each image id to its features
         Arguments:
@@ -28,24 +29,24 @@ class Index:
             n_clusters: (int) number of the clusters of the index
         Returns: 
         """
-        self.clusters_map, self.clusters_centers = self._cluster(features_map, n_clusters = n_clusters)
+        self.clusters_map, self.clusters_centers = self._cluster(features_map, n_clusters=n_clusters)
         self.n_clusters = n_clusters
         self.is_built = True
     
-    def load(self,path):
+    def load(self, path):
         """
         load the index from the desk frm hdf5 file 
         Arguments:
             path: (str) the path/name of the hdf5 file to load the index from
         """
-        with h5py.File(path,'r') as f:
+        with h5py.File(path, 'r') as f:
             self.clusters_centers = f['clusters_centers'][:].tolist()
-            self.clusters_map = {int(key) : [s.decode("utf-8") for s in f['clusters_map'][key][:]] for key in f['clusters_map']}
+            self.clusters_map = {int(key): [s.decode("utf-8") for s in f['clusters_map'][key][:]] for key in f['clusters_map']}
 
         self.n_clusters = len(self.clusters_centers)
         self.is_built = True
 
-    def save(self,path):
+    def save(self, path):
         """
         if the model is built it saves the index to the desk to hdf5 file  else it returns None
         Arguments:
@@ -55,14 +56,14 @@ class Index:
         if not self.is_built:
             raise Exception('the index must be built or loaded before performing this operation')
 
-        with h5py.File(path,'w') as f:
-            f.create_dataset('clusters_centers', data = np.array(self.clusters_centers, dtype = np.float64).astype(np.float64))
+        with h5py.File(path, 'w') as f:
+            f.create_dataset('clusters_centers', data=np.array(self.clusters_centers, dtype=np.float64).astype(np.float64))
             f.create_group('clusters_map')
             for key, value in self.clusters_map.items():
                 # f['clusters_map'].create_dataset(str(key), data = np.array(value, dtype = 'S'))
                 f['clusters_map'].create_dataset(str(key), data=np.array(value, dtype='S').astype('|S'))
 
-    def search(self,query,search_radius = 1,k = 10):
+    def search(self, query, search_radius=1, k=10):
         """
         if the model is built it search for a query in the index and return top k similar result else it returns None
         Arguments:
@@ -78,16 +79,16 @@ class Index:
        
         # get top clusters
         search_radius = min(self.n_clusters, search_radius)
-        top_clusters = self._get_top_k_clusters(query , k = search_radius)
+        top_clusters = self._get_top_k_clusters(query, k=search_radius)
         
         # load the data points in top clusters
         search_space_ids = [v for c in top_clusters for v in self.clusters_map[c]]
         search_space_map = self.data.load_features(search_space_ids)
 
         # measure similarity with the data point & rank
-        top_k_datapoints, top_k_similrities = self._get_top_k_datapoint(query, search_space_map, k= k)
+        top_k_datapoints, top_k_similrities = self._get_top_k_datapoint(query, search_space_map, k=k)
 
-        #return the ids of top k data points
+        # return the ids of top k data points
         return top_k_datapoints, top_k_similrities
     
     def add(self,datapoint):
@@ -99,20 +100,20 @@ class Index:
         if not self.is_built:
             raise Exception('the index must be built or loaded before performing this operation')
         
-        point_id, point_features =  datapoint
+        point_id, point_features = datapoint
 
         # calculate similarities
         clusters_similarities = self._measure_similarity(point_features, self.clusters_centers)
         
-        #rank
+        # rank
         similarity_tuples = list(enumerate(clusters_similarities))
-        similarity_tuples_ranked = sorted(similarity_tuples, key = lambda x:x[1])
+        similarity_tuples_ranked = sorted(similarity_tuples, key=lambda x: x[1])
 
         # add the data point to the most similar cluster
         top_cluster = similarity_tuples_ranked[0][0]
         self.clusters_map[top_cluster].append(point_id)
           
-    def _cluster(self, features, n_clusters = 2):
+    def _cluster(self, features, n_clusters=2):
         """
         clusters list of features into k centroids
         Arguments:
@@ -126,7 +127,7 @@ class Index:
         model = KMeans(n_clusters=n_clusters, random_state=0)
         model.fit(list(features.values()))
 
-        #extracting the clusters data
+        # extracting the clusters data
         clusters_centers = model.cluster_centers_
         features_clusters = model.labels_
 
@@ -138,7 +139,7 @@ class Index:
         
         return clusters_map, clusters_centers
     
-    def _measure_similarity(self,query,data):
+    def _measure_similarity(self, query, data):
         """
         measure similarity between a query and each data point of given data
         Arguments:
@@ -147,11 +148,11 @@ class Index:
         Returns:
             similarity_scrores: (np.ndarray) in which each index i represent the similarity to ith item in 
         """
-        dists = np.linalg.norm(data - query, axis = 1)
+        dists = np.linalg.norm(data - query, axis=1)
         
         return dists
     
-    def _get_top_k_clusters(self,query,k = 1):
+    def _get_top_k_clusters(self, query, k=1):
         """
         get the top k similar cluster to a query by measuring the similarity between the query and the cluster centre
         Arguments:
@@ -161,11 +162,11 @@ class Index:
             top_k_clusters: (list) orderd list of the index of top k clusters
         """
         # calculate similarities
-        clusters_similarities = self._measure_similarity(query,self.clusters_centers)
+        clusters_similarities = self._measure_similarity(query, self.clusters_centers)
 
-        #rank
+        # rank
         similarity_tuples = list(enumerate(clusters_similarities))
-        similarity_tuples_ranked = sorted(similarity_tuples, key = lambda x:x[1])
+        similarity_tuples_ranked = sorted(similarity_tuples, key=lambda x: x[1])
 
         # get top k and format
         top_k_clusters = [None] * k
@@ -173,7 +174,7 @@ class Index:
             top_k_clusters[i] = similarity_tuples_ranked[i][0]
 
         return top_k_clusters
-    def _get_top_k_datapoint(self,query,search_space_map,k = 5):
+    def _get_top_k_datapoint(self,query,search_space_map,k=5):
         """
         get the top k similar data points to a query by measuring the similarity between the query and the data points in
         the search space map

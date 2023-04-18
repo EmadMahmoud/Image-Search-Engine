@@ -16,7 +16,7 @@ def index():
     if request.method == 'POST':
         file = request.files['query_img']
 
-        if not file :
+        if not file:
             return
 
         # Save query image
@@ -30,7 +30,7 @@ def index():
 
         ids, dists = Search.search(img)
         paths = [data.imgs_path+'/'+str(id)+'.jpg' for id in ids]
-        scores = [x for x in zip(dists,paths)]
+        scores = [x for x in zip(dists, paths, ids)]
 
         et = time.time()
         print(f'Excution time = {et - st} Seconds')
