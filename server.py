@@ -10,6 +10,7 @@ app = Flask(__name__)
 data = Data()
 Search = Search()
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':

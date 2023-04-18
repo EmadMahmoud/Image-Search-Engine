@@ -59,8 +59,9 @@ class Index:
             f.create_dataset('clusters_centers', data = np.array(self.clusters_centers, dtype = np.float64).astype(np.float64))
             f.create_group('clusters_map')
             for key, value in self.clusters_map.items():
-                f['clusters_map'].create_dataset(str(key), data = np.array(value, dtype = 'S'))
-    
+                # f['clusters_map'].create_dataset(str(key), data = np.array(value, dtype = 'S'))
+                f['clusters_map'].create_dataset(str(key), data=np.array(value, dtype='S').astype('|S'))
+
     def search(self,query,search_radius = 1,k = 10):
         """
         if the model is built it search for a query in the index and return top k similar result else it returns None
