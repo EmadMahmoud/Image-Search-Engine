@@ -3,6 +3,7 @@ from Index import Index
 from tensorflow.keras.preprocessing import image
 from Data import Data
 
+
 class Search:
     # initialize variables
     fe = None # feature extractor
