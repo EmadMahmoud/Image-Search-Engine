@@ -38,7 +38,7 @@ def index():
         st = time.time() 
 
         img = Image.open(file.stream)  # PIL image
-        uploaded_img_path = data.uploaded_path+'/' +datetime.now().isoformat().replace(":", ".") + "_" + file.filename
+        # uploaded_img_path = data.uploaded_path+'/' +datetime.now().isoformat().replace(":", ".") + "_" + file.filename
         # img.save(uploaded_img_path) # uncomment this if you want to save the file into uploaded file
 
         # Run search
@@ -50,7 +50,7 @@ def index():
             et = time.time()
             print(f'Excution time = {et - st} Seconds')
             return render_template('index.html',
-                                   query_path=uploaded_img_path,
+                                   # query_path=uploaded_img_path,
                                    scores=scores)
         except:
             return render_template('index.html',
