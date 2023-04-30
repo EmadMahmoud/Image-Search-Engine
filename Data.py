@@ -2,8 +2,8 @@ from utils import Env
 from pathlib import Path
 import os
 import numpy as np
-from tensorflow.keras.utils import load_img
-from collections import defaultdict
+# from tensorflow.keras.utils import load_img
+# from collections import defaultdict
 
 
 class Data:
@@ -31,48 +31,48 @@ class Data:
         self.static_path = self.env.get('static_path')
         self.imgs_path = os.path.join(self.static_path, self.env.get('img_rel_path'))
         self.features_path = os.path.join(self.static_path, self.env.get('features_rel_path'))
-        self.uploaded_path = os.path.join(self.static_path, self.env.get('uploaded_rel_path'))
+        # self.uploaded_path = os.path.join(self.static_path, self.env.get('uploaded_rel_path'))
         self.test_path = os.path.join(self.static_path, self.env.get('test_rel_path'))
         self.index_path = self.env.get('index_path')
     
-    def load_imgs(self, exclude_imgs_with_saved_features=False):
-        """
-        load images from the desk from the path saved in .env file
-        Arguments:
-            exclude_imgs_with_saved_features: (bool) if True the function will return only
-             the images that have no features saved on the desk
-        Returns:
-            img_map: (dict) that maps images ids(str) to the actual image (image)
-        """
-        # load the image paths
-        if exclude_imgs_with_saved_features:
-            saved_features = [path.stem for path in Path(self.features_path).glob('*npy')]
-            img_paths_collection = [path for path in Path(self.imgs_path).glob('*jpg') if path.stem not in saved_features]
-        else:
-            img_paths_collection = [path for path in Path(self.imgs_path).glob('*jpg')]
-
-        # initalize dict in which the images will be saved
-        img_map = {}
-
-        # load the images
-        for img_path in img_paths_collection:
-            img_id = img_path.stem
-            img_map[img_id] = load_img(img_path)
-
-        return img_map
+    # def load_imgs(self, exclude_imgs_with_saved_features=False):
+    #     """
+    #     load images from the desk from the path saved in .env file
+    #     Arguments:
+    #         exclude_imgs_with_saved_features: (bool) if True the function will return only
+    #          the images that have no features saved on the desk
+    #     Returns:
+    #         img_map: (dict) that maps images ids(str) to the actual image (image)
+    #     """
+    #     # load the image paths
+    #     if exclude_imgs_with_saved_features:
+    #         saved_features = [path.stem for path in Path(self.features_path).glob('*npy')]
+    #         img_paths_collection = [path for path in Path(self.imgs_path).glob('*jpg') if path.stem not in saved_features]
+    #     else:
+    #         img_paths_collection = [path for path in Path(self.imgs_path).glob('*jpg')]
+    #
+    #     # initalize dict in which the images will be saved
+    #     img_map = {}
+    #
+    #     # load the images
+    #     for img_path in img_paths_collection:
+    #         img_id = img_path.stem
+    #         img_map[img_id] = load_img(img_path)
+    #
+    #     return img_map
     
-    def load_test_imgs(self):
-        img_paths_collection = [path for path in Path(self.test_path).glob('*jpg')]
-
-        # initalize dict in which the images will be saved
-        img_map = {}
-
-        # load the images
-        for img_path in img_paths_collection:
-            img_id = img_path.stem
-            img_map[img_id] = load_img(img_path)
-
-        return img_map
+    # def load_test_imgs(self):
+    #     img_paths_collection = [path for path in Path(self.test_path).glob('*jpg')]
+    #
+    #     # initalize dict in which the images will be saved
+    #     img_map = {}
+    #
+    #     # load the images
+    #     for img_path in img_paths_collection:
+    #         img_id = img_path.stem
+    #         img_map[img_id] = load_img(img_path)
+    #
+    #     return img_map
 
     def load_features(self, custom_features=None):
         """

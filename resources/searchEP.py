@@ -26,8 +26,8 @@ class SearchEP(MethodView):
         st = time.time()
 
         img = Image.open(file.stream)  # PIL image
-        uploaded_img_path = data.uploaded_path + '/' + datetime.now().isoformat().replace(":",
-                                                                                          ".") + "_" + file.filename
+        # uploaded_img_path = data.uploaded_path + '/' + datetime.now().isoformat().replace(":",
+        #                                                                                   ".") + "_" + file.filename
         # img.save(uploaded_img_path)
 
         # Run search
