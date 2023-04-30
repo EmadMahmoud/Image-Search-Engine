@@ -29,9 +29,9 @@ class Data:
         Returns:
         """
         self.static_path = self.env.get('static_path')
-        self.test_path = os.path.join(self.static_path, self.env.get('test_rel_path'))
-        self.imgs_path = os.path.join(self.static_path, self.env.get('img_rel_path'))
-        self.features_path = os.path.join(self.static_path, self.env.get('features_rel_path'))
+        # self.test_path = os.path.join(self.static_path, self.env.get('test_rel_path'))
+        self.imgs_path = 'static/images/Sample'
+        self.features_path = 'static/features/Sample'
         # self.uploaded_path = os.path.join(self.static_path, self.env.get('uploaded_rel_path'))
 
         self.index_path = self.env.get('index_path')
