@@ -1,6 +1,6 @@
 from feature_extractor import FeatureExtractor
 from Data import Data
-from indexer import Index
+from Index import Index
 import time
 import pickle
 
