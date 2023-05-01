@@ -1,7 +1,7 @@
 #imports
 # Data hadling
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 
 import os
 # modeling
@@ -10,23 +10,18 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing import image
 
 
-
 class FeatureExtractor:
 
     # to make tensorflow uses less memory
-    os.environ['TF_DISABLE_BATCHED_EXECUTION'] = '1'
-    # gpus = tf.config.experimental.list_physical_devices('GPU')
-    # for gpu in gpus:
-    #     tf.config.experimental.set_memory_growth(gpu, True)
-
-    tf.keras.mixed_precision.set_global_policy('mixed_float16')
+    # os.environ['TF_DISABLE_BATCHED_EXECUTION'] = '1'
+    # tf.keras.mixed_precision.set_global_policy('mixed_float16')
 
     def __init__(self):
         base_model = InceptionResNetV2(weights = 'imagenet', include_top = False)
         self.model = Model(inputs= base_model.input, outputs = base_model.output)
 
         # test run
-        self.model.predict(np.empty([1, 299, 299, 3]))
+        # self.model.predict(np.empty([1, 299, 299, 3]))
 
     def extract_image(self, img):
         """
