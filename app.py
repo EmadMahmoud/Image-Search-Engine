@@ -3,6 +3,14 @@ from datetime import datetime
 from flask import Flask, request, render_template
 from flask_smorest import Api
 from resources.searchEP import blp as Searchblueprint
+import resource
+
+# set resource limit to 1 GB (in bytes)
+limit = 256 * 1024 * 1024
+resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
+
+# your Flask application code goes here
+
 from Data import Data
 import time
 
