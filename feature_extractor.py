@@ -1,10 +1,12 @@
 #imports
 # Data hadling
 import numpy as np
-import tensorflow as tf
-gpus = tf.config.experimental.list_physical_devices('GPU')
-for gpu in gpus:
-    tf.config.experimental.set_memory_growth(gpu, True)
+# import tensorflow as tf
+# gpus = tf.config.experimental.list_physical_devices('GPU')
+# for gpu in gpus:
+#     tf.config.experimental.set_memory_growth(gpu, True)
+import os
+os.environ['TF_DISABLE_BATCHED_EXECUTION'] = '1'
 # modeling
 from tensorflow.keras.applications.inception_resnet_v2 import InceptionResNetV2, preprocess_input
 from tensorflow.keras.models import Model
