@@ -1,12 +1,9 @@
 #imports
 # Data hadling
 import numpy as np
-# import tensorflow as tf
-# gpus = tf.config.experimental.list_physical_devices('GPU')
-# for gpu in gpus:
-#     tf.config.experimental.set_memory_growth(gpu, True)
+import tensorflow as tf
+
 import os
-os.environ['TF_DISABLE_BATCHED_EXECUTION'] = '1'
 # modeling
 from tensorflow.keras.applications.inception_resnet_v2 import InceptionResNetV2, preprocess_input
 from tensorflow.keras.models import Model
@@ -15,7 +12,15 @@ from tensorflow.keras.preprocessing import image
 
 
 class FeatureExtractor:
-   
+
+    # to make tensorflow uses less memory
+    os.environ['TF_DISABLE_BATCHED_EXECUTION'] = '1'
+    # gpus = tf.config.experimental.list_physical_devices('GPU')
+    # for gpu in gpus:
+    #     tf.config.experimental.set_memory_growth(gpu, True)
+
+    tf.keras.mixed_precision.set_global_policy('mixed_float16')
+
     def __init__(self):
         base_model = InceptionResNetV2(weights = 'imagenet', include_top = False)
         self.model = Model(inputs= base_model.input, outputs = base_model.output)

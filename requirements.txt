@@ -3,7 +3,6 @@ h5py
 scikit-learn
 Pillow
 Flask
-numpy
 python-dotenv
 flask-smorest
 gunicorn
