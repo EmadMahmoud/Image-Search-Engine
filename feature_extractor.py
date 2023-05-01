@@ -8,7 +8,6 @@ import os
 from tensorflow.keras.applications.inception_resnet_v2 import InceptionResNetV2, preprocess_input
 from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing import image
-import psutil
 
 
 class FeatureExtractor:
