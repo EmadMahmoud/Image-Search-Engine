@@ -3,14 +3,11 @@ from datetime import datetime
 from flask import Flask, request, render_template
 from flask_smorest import Api
 from resources.searchEP import blp as Searchblueprint
-from Data import Data
 import time
 
-from search import Search
 
 app = Flask(__name__)
-data = Data()
-Search = Search()
+
 
 # flask-smorest configuration
 app.config["API_TITLE"] = "Image Search Engine"

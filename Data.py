@@ -18,9 +18,9 @@ class Data:
     index_path = None  # the path of the folder containing index
    
     def __init__(self):
-            self.env = Env()
-            self.initialize_paths()
-            self.img_ids = []
+        self.env = Env()
+        self.initialize_paths()
+        self.img_ids = []
         
     def initialize_paths(self):
         """
@@ -34,7 +34,8 @@ class Data:
         self.features_path = 'static/features/Sample'
         # self.uploaded_path = os.path.join(self.static_path, self.env.get('uploaded_rel_path'))
 
-        self.index_path = self.env.get('index_path')
+        self.index_path = 'index/index.hdf5'
+
     
     def load_imgs(self, exclude_imgs_with_saved_features=False):
         """
