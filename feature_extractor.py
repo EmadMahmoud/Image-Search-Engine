@@ -28,7 +28,7 @@ class FeatureExtractor:
         self.model_shape = models_shape_map[self.model_type]
 
         # test run
-        self.base_model.predict(np.empty([1, self.model_shape, self.model_shape, 3]))
+        # self.base_model.predict(np.empty([1, self.model_shape, self.model_shape, 3]))
 
     def extract_image(self, img):
         """
