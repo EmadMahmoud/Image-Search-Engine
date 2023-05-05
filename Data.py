@@ -29,14 +29,11 @@ class Data:
         Returns:
         """
         self.static_path = self.env.get('static_path')
-        # self.test_path = os.path.join(self.static_path, self.env.get('test_rel_path'))
         self.imgs_path = 'static/images/Sample'
         self.features_path = 'static/features/Sample'
-        # self.uploaded_path = os.path.join(self.static_path, self.env.get('uploaded_rel_path'))
 
         self.index_path = 'index/index.hdf5'
 
-    
     def load_imgs(self, exclude_imgs_with_saved_features=False):
         """
         load images from the desk from the path saved in .env file
@@ -108,6 +105,7 @@ class Data:
         for key, value in features_map.items():
             cur_path = os.path.join(self.features_path, str(key) + '.npy')
             np.save(cur_path, value)
+
 
 class Preprocess:
     def __init__(self):

@@ -1,13 +1,11 @@
-from flask import request, Flask
-from flask_smorest import Blueprint, abort, Api
+from flask import request
+from flask_smorest import Blueprint
 from flask.views import MethodView
 from PIL import Image
-from datetime import datetime
 from Data import Data
 import time
 from search import Search
-import numpy as np
-import json
+
 
 data = Data()
 Search = Search()
@@ -22,13 +20,7 @@ class SearchEP(MethodView):
         if not file:
             return
 
-        # Save query image
-        st = time.time()
-
         img = Image.open(file.stream)  # PIL image
-        # uploaded_img_path = data.uploaded_path + '/' + datetime.now().isoformat().replace(":",
-        #                                                                                   ".") + "_" + file.filename
-        # img.save(uploaded_img_path)
 
         # Run search
         try:
@@ -41,6 +33,5 @@ class SearchEP(MethodView):
             return imgs_id, 201
         except:
             return 'make sure the image in .jpg format'
-        # else:
-        #     abort(404, message="upload a jpg photo with english name or number.")
+
 
