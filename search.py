@@ -15,7 +15,7 @@ class Search:
         self.index = Index()
         self.index.load(self.data.index_path)
 
-    def search(self, query,  search_radius = 1, k = 10):
+    def search(self, query,  search_radius=1, k=10):
         """
         takes an image perform the search and return the results
         Arguments:

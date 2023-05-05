@@ -113,7 +113,7 @@ class Index:
         top_cluster = similarity_tuples_ranked[0][0]
         self.clusters_map[top_cluster].append(point_id)
           
-    def _cluster(self, features, n_clusters=2):
+    def _cluster(self, features, n_clusters=5):
         """
         clusters list of features into k centroids
         Arguments:

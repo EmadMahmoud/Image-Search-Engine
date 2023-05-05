@@ -37,8 +37,6 @@ def index():
         st = time.time()
 
         img = Image.open(file.stream)  # PIL image
-        # uploaded_img_path = data.uploaded_path+'/' +datetime.now().isoformat().replace(":", ".") + "_" + file.filename
-        # img.save(uploaded_img_path) # uncomment this if you want to save the file into uploaded file
 
         # Run search
         try:
