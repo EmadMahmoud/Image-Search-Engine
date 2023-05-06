@@ -21,7 +21,7 @@ class Index:
         self.n_clusters = 0
         self.is_built = False
 
-    def build(self, features_map, n_clusters=2):
+    def build(self, features_map, n_clusters=20):
         """
         build an index from a map of features that maps each image id to its features
         Arguments:
@@ -113,7 +113,7 @@ class Index:
         top_cluster = similarity_tuples_ranked[0][0]
         self.clusters_map[top_cluster].append(point_id)
           
-    def _cluster(self, features, n_clusters=5):
+    def _cluster(self, features, n_clusters=20):
         """
         clusters list of features into k centroids
         Arguments:
