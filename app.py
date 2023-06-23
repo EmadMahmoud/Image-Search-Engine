@@ -11,7 +11,7 @@ app = Flask(__name__)
 data = Data()
 Search = Search()
 
-# flask-smorest configuration
+# flask-smorest and Blueprint configuration
 app.config["API_TITLE"] = "Image Search Engine"
 app.config["API_VERSION"] = "v1"
 app.config["OPENAPI_VERSION"] = "3.0.3"
